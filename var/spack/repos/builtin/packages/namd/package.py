@@ -43,8 +43,13 @@ class Namd(MakefilePackage):
 
     depends_on('tcl', when='interface=tcl')
 
+
     depends_on('tcl', when='interface=python')
     depends_on('python', when='interface=python')
+
+    variant('cuda', default=False)
+    depends_on('cuda', when='+cuda')
+    depends_on('charmpp@6.10.2:+cuda~smp backend=multicore', when='+cuda')
 
     def _copy_arch_file(self, lib):
         config_filename = 'arch/{0}.{1}'.format(self.arch, lib)
@@ -138,6 +143,7 @@ class Namd(MakefilePackage):
                     'avx512' in spec.target and \
                     spec.target >= 'skylake_avx512':
                 if spec.version >= Version("2.15") and \
+                        not spec.variants['cuda'].value and \
                         os.path.exists("Linux-AVX512-icc.arch"):
                     tty.info("Building binaries with AVX512-tile optimization")
                     copy("Linux-AVX512-icc.arch", arch_filename)
@@ -199,6 +205,9 @@ class Namd(MakefilePackage):
                 '--without-tcl',
                 '--without-python'
             ])
+
+        if spec.variants['cuda'].value:
+            self._append_option(opts, 'cuda')
 
         config = Executable('./config')
 
