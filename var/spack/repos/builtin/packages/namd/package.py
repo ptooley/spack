@@ -187,6 +187,8 @@ class Namd(MakefilePackage):
             opts.append('--without-fftw')
         elif fftw_version == 'mkl':
             self._append_option(opts, 'mkl')
+            opts.extend(['--with-mkl',
+                         '--mkl-prefix', spec['intel-mkl'].prefix + '/mkl'])
         else:
             _fftw = 'fftw{0}'.format('' if fftw_version == '2' else '3')
 
