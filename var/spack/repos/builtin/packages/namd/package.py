@@ -20,6 +20,7 @@ class Namd(MakefilePackage):
     manual_download = True
 
     version("master", branch="master")
+    version('3.0a6', branch="master", tag='release-3-0-alpha-6')
     version('2.15a1', branch="master", tag='release-2-15-alpha-1')
     version('2.14', sha256='34044d85d9b4ae61650ccdba5cda4794088c3a9075932392dd0752ef8c049235',
             preferred=True)
