@@ -309,6 +309,10 @@ class Charmpp(Package):
                 os.remove(prefix.doc)
                 mkdirp(prefix.doc)
 
+    def setup_environment(self, spack_env, run_env):
+        if self.spec.variants['cuda'].value:
+            spack_env.set("CUDATOOLKIT_HOME", self.spec['cuda'].prefix)
+
     @run_after('install')
     @on_package_attributes(run_tests=True)
     def check_build(self):
