@@ -233,3 +233,5 @@ class Namd(MakefilePackage):
             # I'm not sure this is a good idea or if an autoload of the charm
             # module would not be better.
             install('charmrun', prefix.bin)
+
+            install('psfgen', prefix.bin)
